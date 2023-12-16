@@ -1,0 +1,67 @@
+<%- contentFor('HeaderCss') %>
+
+	<style>
+		.bg-black {
+			background-color: navy;
+		}
+	</style>
+
+	<%- contentFor('body') %>
+
+
+		<div hx-get="/modal" hx-ext='json-enc'>Get Some HTML</div>
+
+
+		<div x-data="{ username: 'calebporzio' }"
+			:style="$store.darkMode ? 'background-color:red; color:white' : 'background-color:white; color:red'">
+			Username: <strong x-text="username"></strong>
+		</div>
+
+		<div x-data="{ open: false }">
+			<button @click="open = ! open">Toggle</button>
+
+			<div x-show="open" @click.outside="open = false">Contents...</div>
+		</div>
+
+		<button x-data @click="$store.darkMode =! $store.darkMode"
+			:class="!$store.darkMode ? 'bg-slate-800' : 'bg-white'">Toggle Dark Mode</button>
+
+		<div class="rounded-lg px-6 py-8 ring-1 ring-slate-900/5 shadow-xl"
+			:class="$store.darkMode ? 'bg-slate-800' : 'bg-white'">
+			<div>
+				<span class="inline-flex items-center justify-center p-2 bg-indigo-500 rounded-md shadow-lg">
+					<svg class="h-6 w-6 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+						stroke="currentColor" aria-hidden="true"><!-- ... --></svg>
+				</span>
+			</div>
+			<h3 class="mt-5 text-base font-medium tracking-tight"
+				:class="$store.darkMode ? 'text-white' : 'text-slate-900'">Writes Upside-Down</h3>
+			<p class="cmt-2 text-sm" :class="$store.darkMode ? 'text-slate-400' : 'text-slate-500'">
+				The Zero Gravity Pen can be used to write in any orientation, including upside-down. It even works in
+				outer
+				space.
+			</p>
+		</div>
+
+
+		<%- contentFor('FooterJs') %>
+
+			<script>
+				document.addEventListener('alpine:init', () => {
+					Alpine.store('darkMode', false)
+				})
+				if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+					document.documentElement.classList.add('dark')
+				} else {
+					document.documentElement.classList.remove('dark')
+				}
+
+				// Whenever the user explicitly chooses light mode
+				localStorage.theme = 'light'
+
+				// Whenever the user explicitly chooses dark mode
+				localStorage.theme = 'dark'
+
+				// Whenever the user explicitly chooses to respect the OS preference
+				localStorage.removeItem('theme')
+			</script>

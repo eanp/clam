@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include ('./title-meta') %>
+  <%- include ('./head-css') %>
+  <%- HeaderCss %>
+</head>
+
+<body x-data :class="$store.darkMode && 'bg-black'">
+
+
+  <%- body %>
+
+
+  <%- FooterJs %>
+</body>
+
+</html>
