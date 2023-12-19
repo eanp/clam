@@ -1,0 +1,38 @@
+<form hx-post="/auth-login" hx-swap="outerHTML" class="">
+
+	<input type="hidden" id="token" name="token" value="<%= csrf_token %>">
+
+	<div class="mb-6">
+		<label class="block text-gray-700 text-sm font-bold mb-2" for="email">
+			Email
+		</label>
+		<input
+			class="w-2/3 bg-white rounded-md px-2 h-8 border border-inherit border-blue-200 focus:outline-none focus:border-2 focus:border-blue-500 invalid:border-red-500 valid:border-green-500"
+			id="email" type="text" placeholder="email" name="email" required>
+	</div>
+	<div class="mb-6">
+		<label class="block text-gray-700 text-sm font-bold mb-2" for="password">
+			Password
+		</label>
+		<input
+			class="w-2/3 bg-white rounded-md px-2 h-8 border border-inherit border-blue-200 focus:outline-none focus:border-2 focus:border-blue-500 invalid:border-red-500 valid:border-green-500"
+			id="password" type="password" placeholder="*******" name="password" required>
+	</div>
+
+	<div id="alert"></div>
+
+	<button class="font-bold py-2 px-4 rounded bg-blue-500 text-white hover:bg-blue-700" type="submit">Login</button>
+
+	<img id="ind" src="/static/assets/images/myIcon.ico" class="htmx-indicator">
+
+
+	<div class="bg-white mt-4 w-1/2 px-2">
+		<p>
+			email : test@test.com
+		</p>
+		<p>
+			password : 12345678
+		</p>
+	</div>
+
+</form>

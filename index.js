@@ -6,7 +6,6 @@ import cookieParser from "cookie-parser";
 import moment from "moment";
 import expressLayouts from "express-ejs-layouts";
 import router from "./routers/route.js";
-import { csrf_print } from "./utils/csrf.js";
 
 dotenv.config();
 const app = express();
@@ -35,10 +34,8 @@ app.set('layout', 'partials/layout-main');
 app.use(expressLayouts);
 
 app.use(function (req, res, next) {
-    let user = req.session.profile || {user:"guest"}
     moment.locale("id")
-    res.locals.csrf_token = csrf_print(user) 
-    res.locals.profile = user;
+    res.locals.profile = req.session.profile;
     res.locals.moment = moment;
     next();
 });

@@ -6,7 +6,7 @@ const csrf_secret = process.env.CSRF_TOKEN;
 
 export const csrf_print = (payload) => {
     const verifyOpts ={
-        expiresIn : '1s'
+        expiresIn : '10m'
     }
     const token = jwt.sign(payload,csrf_secret,verifyOpts)
     return token
@@ -14,7 +14,7 @@ export const csrf_print = (payload) => {
 
 export const csrf_verify = (token) => {
 	try{
-        console.log(token)
+        console.log("token",token)
         if(token){
             console.log(token)
             let decode = jwt.verify(token,csrf_secret)
@@ -25,7 +25,6 @@ export const csrf_verify = (token) => {
 			return false  
         }
     }catch(error){
-		console.log('error',error)
         if(error && error.name == 'JsonWebTokenError'){
 			console.log("invalid token")
             return false      

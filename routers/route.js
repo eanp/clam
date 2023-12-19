@@ -1,5 +1,5 @@
 import express from "express";
-import { csrf_verify } from "../utils/csrf.js";
+import { csrf_print, csrf_verify } from "../utils/csrf.js";
 const route = express.Router();
 
 route.get("/", async (req, res, next) => {
@@ -9,19 +9,22 @@ route.get("/", async (req, res, next) => {
 route.get("/auth-login", async (req, res, next) => {
     res.render("auth/auth-login", {
         title: "Login Clam",
+		csrf_token: csrf_print({user:"guest"}),
         layout: false,
     });
 });
 
 route.post("/auth-login", async (req, res, next) => {
     let data = req.body;
-
-	console.log("checker csrf ",csrf_verify(data.token))
+	let csrf_token = csrf_print({user:"guest"})
 
 	if(!csrf_verify(data.token)){
-		console.log("csrf verify")
-		res.redirect("/auth-login");
-		return;
+		let result = res.render("auth/form-login", {
+            csrf_token,
+            layout: false,
+        });
+		res.send(result);
+        return;
 	}
 
     if (data.email === "test@test.com" && req.body.password === "12345678") {
