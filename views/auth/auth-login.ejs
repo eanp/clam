@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<%- include ('../partials/title-meta') %>
+		<%- include ('../partials/head-css') %>
+		<!-- <script src="https://cdn.tailwindcss.com"></script> -->
+		
+		<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+		<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</head>
+
+<body x-data :class="$store.darkMode && 'bg-gray-800'">
+
+	<div class="max-w-3xl mx-auto mt-20 bg-slate-100 rounded-xl shadow-md overflow-hidden md:max-w-2xl" :class="$store.darkMode && 'bg-slate-400'">
+		<div class="md:flex w-full">
+		  <div class="md:shrink-0 w-1/3">
+			<img class="h-1/2 w-full object-cover md:h-full md:w-80" src="/static/assets/images/login-images.jpg" alt="Modern building architecture">
+		  </div>
+		  <div class="p-8 w-2/3 ">
+				<form hx-post="/auth-login" hx-target="#alert"      hx-swap="outerHTML" class="" hx-push-url >
+
+					<input type="hidden" id="token" name="token" value="<%= csrf_token %>">
+
+				<div class="mb-6">
+					<label class="block text-gray-700 text-sm font-bold mb-2" for="email">
+						Email
+					</label>
+					<input class="w-2/3 bg-white rounded-md px-2 h-8 border border-inherit border-blue-200 focus:outline-none focus:border-2 focus:border-blue-500 invalid:border-red-500 valid:border-green-500" id="email" type="text" placeholder="email" name="email" required>
+				</div>
+				<div class="mb-6">
+					<label class="block text-gray-700 text-sm font-bold mb-2" for="password">
+						Password
+					</label>
+					<input class="w-2/3 bg-white rounded-md px-2 h-8 border border-inherit border-blue-200 focus:outline-none focus:border-2 focus:border-blue-500 invalid:border-red-500 valid:border-green-500" id="password" type="password" placeholder="*******" name="password" required>
+				</div>
+
+				<div id="alert"></div>
+
+				<button class="font-bold py-2 px-4 rounded bg-blue-500 text-white hover:bg-blue-700" type="submit">Login</button>
+
+				<img id="ind" src="/static/assets/images/myIcon.ico" class="htmx-indicator">
+
+
+				<div class="bg-white mt-4 w-1/2 px-2">
+					<p>
+						email : test@test.com
+					</p>
+					<p>
+						password : 12345678
+					</p>
+				</div>
+
+			</form>
+		</div>
+	</div>
+	
+</div>
+
+<ion-icon name="sunny" @click="$store.darkMode =! $store.darkMode" size="large" class="absolute top-5 right-5 text-yellow-300" x-show="$store.darkMode" x-transition.duration.1000m></ion-icon>
+<ion-icon name="moon" @click="$store.darkMode =! $store.darkMode" size="large" class="absolute top-5 right-5 text-gray-700" x-show="!$store.darkMode" x-transition.duration.1000m></ion-icon>
+
+	<%- include ('../partials/footer-scripts') %>
+</body>
+
+</html>
