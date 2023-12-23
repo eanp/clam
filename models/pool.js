@@ -15,11 +15,8 @@ const login = async (email,password) => {
 	if(result.rowCount === 0){
 		return "email not found"
 	}
-
-	// console.log(result.rows[0].password)
 	
 	let isVerify = await argon2.verify(result.rows[0].password,password)
-
 	return isVerify
 };
 

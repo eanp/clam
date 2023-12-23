@@ -1,13 +1,27 @@
 import express from "express";
 import { csrf_print, csrf_validate } from "../utils/csrf.js";
 import { Users } from "../models/pool.js";
+import argon2 from "argon2";
+import {auth} from "../utils/common.js"
 const route = express.Router();
 
-route.get("/", async (req, res, next) => {
+route.get("/test",auth, async (req, res, next) => {
+    let result = await Users.selectId('test@test.com',"email")
+    let password = await argon2.hash("12345678")
+    console.log(password)
+    res.send(result.rows[0])
+});
+
+
+route.get("/", auth,async (req, res, next) => {
     res.render("index", { title: "Dashboard Clam" });
 });
 
 route.get("/auth-login", async (req, res, next) => {
+    let user = req.session.profile
+    if (user) {
+        return res.redirect("/");
+    }
     res.render("auth/auth-login", {
         title: "Login Clam",
         csrf_token: csrf_print({ user: "guest" }),
