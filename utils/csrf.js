@@ -37,3 +37,12 @@ export const csrf_verify = (token) => {
         }
     }
 }
+
+export const csrf_validate = (req,res,next) => {
+    let data = req.body;
+    if (!csrf_verify(data.token)) {
+        return res.header({ "HX-Refresh": true}).send();
+    } else {
+        return next()
+    }
+}

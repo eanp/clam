@@ -6,6 +6,8 @@ import cookieParser from "cookie-parser";
 import moment from "moment";
 import expressLayouts from "express-ejs-layouts";
 import router from "./routers/route.js";
+import { Users } from "./models/pool.js";
+import argon2 from "argon2";
 
 dotenv.config();
 const app = express();
@@ -53,6 +55,14 @@ app.use((req, res, next) => {
     } else {
         return res.redirect("/auth-login");
     }
+});
+
+// test
+app.get("/test", async (req, res, next) => {
+    let result = await Users.selectId('test@test.com',"email")
+    let password = await argon2.hash("12345678")
+    console.log(password)
+    res.send(result.rows[0])
 });
 
 app.listen(process.env.PORT, () =>

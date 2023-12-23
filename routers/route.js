@@ -1,5 +1,6 @@
 import express from "express";
-import { csrf_print, csrf_verify } from "../utils/csrf.js";
+import { csrf_print, csrf_validate } from "../utils/csrf.js";
+import { Users } from "../models/pool.js";
 const route = express.Router();
 
 route.get("/", async (req, res, next) => {
@@ -9,54 +10,42 @@ route.get("/", async (req, res, next) => {
 route.get("/auth-login", async (req, res, next) => {
     res.render("auth/auth-login", {
         title: "Login Clam",
-		csrf_token: csrf_print({user:"guest"}),
+        csrf_token: csrf_print({ user: "guest" }),
         layout: false,
     });
 });
 
-route.post("/auth-login", async (req, res, next) => {
+route.post("/auth-login", csrf_validate, async (req, res, next) => {
     let data = req.body;
-	let csrf_token = csrf_print({user:"guest"})
+    let csrf_token = csrf_print({ user: "guest" });
+    let helper = { csrf_token, layout: false };
+    let isVerify = await Users.login(data.email,data.password)
+    let result
 
-	if(!csrf_verify(data.token)){
-		let result = res.render("auth/form-login", {
-            csrf_token,
-            layout: false,
-        });
-		res.send(result);
-        return;
-	}
-
-    if (data.email === "test@test.com" && req.body.password === "12345678") {
-        req.session.profile.email = data.email;
-        res.redirect("/");
-        return;
-    } else if (
-        data.email === "test@test.com" &&
-        req.body.password !== "12345678"
-    ) {
-        let result = res.render("components/alert", {
-            status: "alert",
-            layout: false,
-        });
-        result && res.send(result);
-        return;
-    } else {
-        let result = res.render("components/alert", {
-            status: "alert",
-            layout: false,
-        });
-        result && res.send(result);
-        return;
+    switch(isVerify){
+        case false:
+            result = res.render("auth/form-login", {
+                ...helper,
+                messages:"wrong password",
+                status:"error",
+                
+            });
+            result && res.send(result);
+            return;
+        case "email not found":
+            result = res.render("auth/form-login", {
+                    ...helper,
+                    status:"error",
+                    messages:"account not found"
+            });
+            result && res.send(result);
+            return;
+        case true:
+            delete data.password
+            req.session.profile = data;
+            res.header({ "Hx-redirect": "/"}).send("Login successful!");
+            return;
     }
-    // req.session.profile = {
-    // 	email: "clam@test.com",
-    // };
-    let result = res.render("modal", { layout: false });
-    result && res.send(result);
-    return;
-
-    res.redirect("/");
 });
 
 route.get("/auth-logout", async (req, res, next) => {

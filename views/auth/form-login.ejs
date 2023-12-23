@@ -21,18 +21,25 @@
 
 	<div id="alert"></div>
 
-	<button class="font-bold py-2 px-4 rounded bg-blue-500 text-white hover:bg-blue-700" type="submit">Login</button>
+	<button class="w-2/3 font-bold py-2 px-4 rounded-md bg-blue-500 text-white hover:bg-blue-700" type="submit">
+		<ion-icon name="logo-ionic" class="animate-spin htmx-indicator"></ion-icon>
+		Login
+	</button>
 
-	<img id="ind" src="/static/assets/images/myIcon.ico" class="htmx-indicator">
+
+	<% if (typeof status !='undefined' ) { %>
+		<%- include ('../components/alert') %>
+			<% } %>
 
 
-	<div class="bg-white mt-4 w-1/2 px-2">
-		<p>
-			email : test@test.com
-		</p>
-		<p>
-			password : 12345678
-		</p>
-	</div>
+
+				<div class="bg-white mt-2 w-1/2 px-2">
+					<p>
+						email : test@test.com
+					</p>
+					<p>
+						password : 12345678
+					</p>
+				</div>
 
 </form>

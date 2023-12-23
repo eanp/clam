@@ -1,8 +1,7 @@
-<!-- succes -->
+<% if (status==="error") { %>
 
-<% if (status==="alert" ) { %>
-	<h1>success</h1>
-	<% } else{ %>
-		<h1>warning</h1>
-		
-		<% } %>
+	<div class="bg-red-100 border w-2/3 border-red-400 text-red-700 px-4 py-1 my-2 rounded-md relative" role="alert">
+		<strong class="font-bold">Oops!</strong>
+		<span class="block sm:inline"><%= messages %></span>
+	  </div>
+<% } %>
