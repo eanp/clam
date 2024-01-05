@@ -15,6 +15,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/static", express.static("public"));
 app.disable('etag');
 
+app.use(cookieParser());
 app.use(
     session({
         name: "mysecretKeySandbox",
@@ -27,7 +28,6 @@ app.use(
         },
     })
     );
-    app.use(cookieParser());
 
 app.set("view engine", "ejs");
 app.set('layout', 'partials/layout-main');

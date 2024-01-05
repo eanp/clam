@@ -1,6 +1,6 @@
-<form hx-post="/auth-login" hx-swap="outerHTML" class="" id="form-login">
+<form hx-post="/auth-register" hx-swap="outerHTML" class="" id="form-register">
 
-	<h2 class="text-4xl mt-5">Login</h2>
+	<h2 class="text-4xl mt-5">Register</h2>
 
 	<div class="h-12 pt-2">
 		<% if (typeof status !='undefined' ) { %>
@@ -30,16 +30,16 @@
 	</div>
 
 	<div id="alert"></div>
-
-	<button class="w-2/3 font-bold py-2 px-4 rounded-md bg-blue-500 text-white hover:bg-blue-700" type="submit">
-		<ion-icon name="logo-ionic" class="animate-spin htmx-indicator"></ion-icon>
-		Login
-	</button>
-
-	<button class="w-2/3 font-bold py-2 px-4 rounded-md bg-red-500 text-white hover:bg-red-700 mt-5" hx-get="/auth-register" hx-push-url="/auth-register"  hx-target="#form-login"  hx-select="#form-register">
+	
+	<button class="w-2/3 font-bold py-2 px-4 rounded-md bg-red-500 text-white hover:bg-red-700 mt-5" type="submit" >
 		<ion-icon name="logo-ionic" class="animate-spin htmx-indicator"></ion-icon>
 		Register
 	</button>
+	
+		<button class="w-2/3 font-bold py-2 px-4 rounded-md bg-blue-500 text-white hover:bg-blue-700" hx-get="/auth-login" hx-push-url="/auth-login"  hx-target="#form-register"  hx-select="#form-login">
+			<ion-icon name="logo-ionic" class="animate-spin htmx-indicator"></ion-icon>
+			Login
+		</button>
 
 
 
